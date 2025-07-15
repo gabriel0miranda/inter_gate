@@ -1,5 +1,6 @@
 FROM alpine:3.22
 
+ENV CONFIG_PATH=/usr/share/inter_gate/config/config.lua
 WORKDIR /usr/share/inter_gate
 RUN mkdir /etc/inter_gate
 
@@ -11,7 +12,7 @@ RUN luarocks-5.4 install http
 
 COPY main.lua .
 COPY src/ ./src
-COPY config .
+COPY config ./config
 
 EXPOSE 3000
 
