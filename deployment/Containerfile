@@ -1,0 +1,34 @@
+FROM alpine:3.22
+
+WORKDIR /usr/share/inter_gate
+RUN mkdir /etc/inter_gate
+
+RUN apk update
+RUN apk add lua5.4 gcc lua5.4-dev luarocks5.4 supervisor build-base openssl-dev bsd-compat-headers m4
+RUN apk upgrade -U -a
+RUN luarocks-5.4 install cqueues
+RUN luarocks-5.4 install http
+
+COPY main.lua .
+COPY src/ ./src
+COPY config .
+
+EXPOSE 3000
+
+COPY deployment/supervisor.conf /etc/inter_gate/inter_gate.conf
+COPY deployment/entrypoint.sh /usr/local/bin/entrypoint
+RUN chmod +x /usr/local/bin/entrypoint
+
+RUN ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+
+RUN addgroup -S inter_gate
+RUN adduser -h /usr/share/inter_gate -u 2001 -S -G inter_gate inter_gate
+RUN chown -R inter_gate:inter_gate \
+    /usr/share/inter_gate \
+    /etc/inter_gate \
+    /usr/local/bin/entrypoint
+
+USER inter_gate
+
+RUN set PATH=PATH:/usr/local/bin
+CMD ["supervisord", "-n", "-c", "/etc/inter_gate/inter_gate.conf"]
