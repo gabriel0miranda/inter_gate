@@ -5,7 +5,6 @@ local client = require("src/client")
 local server = {
   config = {},
   http_server = {},
-  cqueues_socket = {},
 }
 
 function Health(request)
@@ -80,7 +79,7 @@ function server:create(config)
     port = self.config["port"],
     onerror = Onerror,
     onstream = Handle,
-    tls = false,
+    tls = self.config["tls"],
   })
 end
 
