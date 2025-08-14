@@ -1,6 +1,9 @@
 local httpserver = require("http.server")
 local httpheaders = require("http.headers")
 local client = require("src/client")
+local ssl_ctx = require('openssl.ssl.context')
+local x509 = require('openssl.x509')
+local pkey = require('openssl.pkey')
 
 local server = {
   config = {},
@@ -79,12 +82,28 @@ end
 
 function server:create(config)
   self.config = config
+
+  local ssl_context
+  if self.config["tls"] then
+    local privkey_file = assert(io.open(self.config["privk_path"],"r"))
+    local privkey_content = privkey_file:read("*a")
+    local privkey = pkey.new(privkey_content,"PEM")
+    local cert_file = assert(io.open(self.config["cert_path"],"r"))
+    local cert_content = cert_file:read("*a")
+    local cert = x509.new(cert_content,"PEM")
+    ssl_context = ssl_ctx.new('TLS',true)
+    ssl_context:setCertificate(cert)
+    ssl_context:setPrivateKey(privkey)
+  end
   self.http_server = assert(httpserver.listen {
     host = self.config["host"],
     port = self.config["port"],
+    --family = family,
     onerror = Onerror,
     onstream = Handle,
     tls = self.config["tls"],
+    ctx = ssl_context,
+    v6only = self.config["ipv6"]
   })
   return 0
 end

@@ -5,7 +5,7 @@ WORKDIR /usr/share/inter_gate
 RUN mkdir /etc/inter_gate
 
 RUN apk update
-RUN apk add lua5.4 gcc lua5.4-dev luarocks5.4 supervisor build-base openssl-dev bsd-compat-headers m4
+RUN apk add lua5.4 gcc lua5.4-dev luarocks5.4 supervisor build-base openssl openssl-dev bsd-compat-headers m4
 RUN apk upgrade -U -a
 RUN luarocks-5.4 install cqueues
 RUN luarocks-5.4 install http
