@@ -10,6 +10,6 @@ Uma API gateway feita em Lua.
 
 [ ] Testes automatizados com LuaUnit
 
-[ ] Resolve TLS/SSL
+[x] Resolve TLS/SSL
 
 [ ] Middlewares padrões e customizados
