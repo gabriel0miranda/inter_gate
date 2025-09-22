@@ -1,0 +1,11 @@
+application_load_balancer:
+  name: "application_load_balancer"
+  state: present
+  listeners:
+    - protocol: http
+      load_balancer_port: 80
+      instance_port: 8080
+      proxy_protocol: true
+    - protocol: https
+      load_balancer_port: 443
+      instance_port: 8080

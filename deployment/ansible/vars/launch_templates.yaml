@@ -1,0 +1,8 @@
+application_launch_template:
+  name: "application_launch_template"
+  image_id: "ami-0bb7d855677353076"
+  instance_type: t4g.small
+  user_data: |
+    #!/bin/bash
+    apt update
+    apt install python3 podman

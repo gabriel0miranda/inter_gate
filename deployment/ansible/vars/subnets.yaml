@@ -1,0 +1,11 @@
+public_subnet:
+  name: public_subnet
+  cidr: 10.10.0.0/17
+
+private_subnet:
+  name: private_subnet
+  cidr: 10.10.128.0/18
+
+secure_subnet:
+  name: secure_subnet
+  cidr: 10.10.192.0/18

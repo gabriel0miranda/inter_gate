@@ -1,0 +1,7 @@
+default_vpc:
+  name: 3rdgig_vpc
+  cidr_block: 10.10.0.0/16
+  region: us-east-2
+  tags:
+    created_by: ansible
+    owner: 3rdgig

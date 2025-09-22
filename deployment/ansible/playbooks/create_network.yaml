@@ -1,0 +1,35 @@
+- hosts: localhost
+  gather_facts: False
+  vars_files:
+    - ../vars/vpc.yaml
+    - ../vars/subnets.yaml
+
+  tasks:
+    - name: Create VPC
+      amazon.aws.ec2_vpc_net:
+        name: "{{ default_vpc.name }}"
+        cidr_block: "{{ default_vpc.cidr_block }}"
+        region: "{{ default_vpc.region }}"
+        tags: "{{ default_vpc.tags }}"
+      register: created_vpc
+
+    - name: Create public subnet
+      amazon.aws.ec2_vpc_subnet:
+        cidr: "{{ public_subnet.cidr }}"
+        vpc_id: "{{ created_vpc.vpc.id }}"
+        tags:
+          Name: "{{ public_subnet.name }}"
+
+    - name: Create private subnet
+      amazon.aws.ec2_vpc_subnet:
+        cidr: "{{ private_subnet.cidr }}"
+        vpc_id: "{{ created_vpc.vpc.id }}"
+        tags:
+          Name: "{{ private_subnet.name }}"
+    
+    - name: Create secure subnet
+      amazon.aws.ec2_vpc_subnet:
+        cidr: "{{ secure_subnet.cidr }}"
+        vpc_id: "{{ created_vpc.vpc.id }}"
+        tags:
+          Name: "{{ secure_subnet.name }}"

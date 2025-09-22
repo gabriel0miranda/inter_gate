@@ -1,0 +1,7 @@
+- vars:
+    
+  vars_files:
+    - ../vars/autoscaling_groups.yaml
+    - ../vars/key_pair.yaml
+    - ../vars/launch_templates.yaml
+    - ../vars/load_balancers.yaml

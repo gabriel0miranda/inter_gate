@@ -1,0 +1,9 @@
+application_autoscaling_group:
+  name: "application_autoscaling_group"
+  availability_zones: ['us-east-2a', 'us-east-2b']
+  min_size: 1
+  max_size: 1
+  desired_capacity: 1
+  tags:
+    - created_by: ansible
+      owner: 3rdgig

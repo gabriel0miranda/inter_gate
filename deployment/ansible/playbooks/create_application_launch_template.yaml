@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: False
+  vars_files:
+    - ../vars/launch_templates.yaml
+    - ../vars/key_pair.yaml
+
+  tasks:
+    - name: Create application ec2 launch template
+      amazon.aws.ec2_launch_template:
+        name: "{{ application_launch_template.name }}"
+        image_id: "{{ application_launch_template.image_id }}"
+        key_name: "{{ default_key_pair.name }}"
+        instance_type: "{{ application_launch_template.instance_type }}"
+        user_data: "{{ application_launch_template.user_data | b64encode }}"
+
+    
