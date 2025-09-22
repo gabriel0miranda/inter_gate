@@ -27,7 +27,7 @@ function server:proxy(req_headers, req_body, address)
     res_headers:append(":status", "504")
     res_headers:append("content-type", "text/plain")
     res_body = "[TIMED OUT]"
-    error("Error while proxying request to "..address..": "..res_body)
+    print("Error while proxying request to "..address..": "..res_body)
     return res_headers, res_body
   end
 
@@ -77,7 +77,7 @@ function Onerror(httpsrv, context, op, err, errno)
   if err then
     msg = msg .. ": " .. tostring(err)
   end
-  error(msg)
+  print(msg)
 end
 
 function server:create(config)
@@ -95,6 +95,7 @@ function server:create(config)
     ssl_context:setCertificate(cert)
     ssl_context:setPrivateKey(privkey)
   end
+
   self.http_server = assert(httpserver.listen {
     host = self.config["host"],
     port = self.config["port"],

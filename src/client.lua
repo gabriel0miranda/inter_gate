@@ -10,7 +10,7 @@ function client:request(headers, body, address)
   if res_headers ~= nil then
     local res_body = assert(stream:get_body_as_string())
     if res_headers:get(":status") ~= "200" then
-      error(res_body)
+      print(res_body)
     end
     return res_headers, res_body
   end
